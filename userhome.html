@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: url('imageimportant.jpg') no-repeat center center fixed;
+            background-size: cover;
+            height: 100vh;
+            display: flex;
+        }
+
+        /* Side Menu Styling */
+        .side-menu {
+            width: 250px;
+            background: linear-gradient(135deg, #FFA500, #FFD580);
+            padding-top: 20px;
+            height: 100vh;
+            color: white;
+            position: fixed;
+            border-top-right-radius: 30px; /* Curved top right */
+            border-bottom-right-radius: 30px; /* Curved bottom right */
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.5); /* Optional shadow for better visibility */
+        }
+
+        .side-menu h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: white;
+            font-weight: normal;
+        }
+
+        .side-menu a {
+            display: block;
+            padding: 15px;
+            text-decoration: none;
+            color: white;
+            margin: 10px 0;
+            text-align: center;
+            border-bottom: 1px solid #003b8d;
+            transition: background-color 0.3s;
+        }
+
+        /* Hover effect */
+        .side-menu a:hover {
+            background-color: #003b8d;
+        }
+
+        /* Active menu item */
+        .side-menu a.active {
+            background-color: #004aad;
+        }
+
+        /* Submenu styling */
+        .sub-menu {
+            background-color: #004aad;
+            display: none; /* Initially hidden */
+            margin: 5px 0;
+            border-radius: 5px;
+        }
+
+        .sub-menu a {
+            padding: 10px;
+            text-decoration: none;
+            color: white;
+            display: block;
+            text-align: center;
+            border: none;
+            transition: background-color 0.3s;
+        }
+
+        .sub-menu a:hover {
+            background-color: #003b8d;
+        }
+
+        .welcome {
+            font-size: 18px;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .content {
+            margin-left: 260px; /* Adjust for side menu width */
+            padding: 20px;
+            width: calc(100% - 260px);
+            overflow-y: auto; /* Add scroll if content overflows */
+        }
+
+        .system-name {
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            font-size: 24px;
+            font-weight: bold;
+            color: black;
+        }
+
+        /* Form Styling */
+        .add-cert-form {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .add-cert-form h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .add-cert-form label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .add-cert-form input[type="text"],
+        .add-cert-form input[type="date"],
+        .add-cert-form textarea,
+        .add-cert-form input[type="file"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .add-cert-form textarea {
+            resize: vertical;
+            height: 100px;
+        }
+
+        .add-cert-form button {
+            width: 100%;
+            padding: 10px;
+            background-color: #004aad;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .add-cert-form button:hover {
+            background-color: #003b8d;
+        }
+
+        /* Table for viewing feedback */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        table, th, td {
+            border: 1px solid #ccc;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        td {
+            background-color: #fff;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .side-menu {
+                width: 200px;
+            }
+            .content {
+                margin-left: 210px;
+                width: calc(100% - 210px);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .side-menu {
+                width: 100%;
+                height: auto;
+                position: relative;
+                border-radius: 0;
+            }
+            .side-menu a {float: left;}
+            .content {
+                margin-left: 0;
+                width: 100%;
+            }
+            .system-name {
+                position: static;
+                text-align: center;
+                margin-bottom: 10px;
+            }
+        }
+    </style>
+    <script>
+        function toggleSubMenu() {
+            const subMenu = document.getElementById('feedbackSubMenu');
+            subMenu.style.display = subMenu.style.display === 'block' ? 'none' : 'block';
+        }
+
+        function showContent(contentId) {
+            // Hide all content sections
+            document.getElementById('dashboardContent').style.display = 'none';
+            document.getElementById('homeContent').style.display = 'none';
+            document.getElementById('profileContent').style.display = 'none';
+            document.getElementById('viewCoursesContent').style.display = 'none';
+            document.getElementById('coursesFeedbackContent').style.display = 'none';
+            document.getElementById('facultyFeedbackContent').style.display = 'none';
+            document.getElementById('servicesFeedbackContent').style.display = 'none';
+            document.getElementById('viewFeedbackContent').style.display = 'none';
+            document.getElementById('changePasswordContent').style.display = 'none';
+
+            // Remove 'active' class from all menu links
+            const menuLinks = document.querySelectorAll('.side-menu a');
+            menuLinks.forEach(link => link.classList.remove('active'));
+
+            // Add 'active' class to the clicked link
+            event.currentTarget.classList.add('active');
+
+            // Show the selected content section
+            document.getElementById(contentId).style.display = 'block';
+        }
+
+        function logout() {
+            // Redirect to index.html when logout is clicked
+            window.location.href = 'index.html';
+        }
+    </script>
+</head>
+<body>
+    <!-- Side Menu -->
+    <div class="side-menu">
+        <h2>Welcome, User</h2>
+        <a href="#" onclick="showContent('dashboardContent')" class="active">Dashboard</a>
+        <a href="#" onclick="showContent('homeContent')">Home</a>
+        <a href="#" onclick="showContent('profileContent')">Profile</a>
+        <a href="#" onclick="showContent('viewCoursesContent')">View Projects</a>
+        <a href="#" onclick="toggleSubMenu()">Upload Projects</a>
+        <div class="sub-menu" id="feedbackSubMenu">
+            <a href="#" onclick="showContent('coursesFeedbackContent')">Courses</a>
+            <a href="#" onclick="showContent('facultyFeedbackContent')">Faculty</a>
+            <a href="#" onclick="showContent('servicesFeedbackContent')">Services</a>
+        </div>
+        <a href="#" onclick="showContent('viewFeedbackContent')">View Feedback</a>
+        <a href="#" onclick="showContent('changePasswordContent')">Change Password</a>
+        <a href="#" onclick="logout()">Logout</a>
+    </div>
+
+    <!-- Main Content Area -->
+    <div class="content">
+        <!-- Dashboard Content -->
+        <div id="dashboardContent" style="display: block;">
+            <h2>Dashboard</h2>
+            <p>Welcome to the Dashboard! Here you can get an overview of your profile, courses, and feedback.</p>
+        </div>
+
+        <!-- Home Content -->
+        <div id="homeContent" style="display: none;">
+            <h2>Home</h2>
+            <p>Welcome to the Home page! Here you will find the latest updates and announcements.</p>
+        </div>
+
+        <!-- Profile Content -->
+        <div id="profileContent" style="display: none;">
+            <h2>Your Profile</h2>
+            <p>Update your profile information below:</p>
+            <label>Name: <input type="text" value="John Doe"></label>
+            <label>Email: <input type="text" value="john.doe@example.com"></label>
+            <button>Update Profile</button>
+        </div>
+
+        <!-- View Courses Content -->
+        <div id="viewCoursesContent" style="display: none;">
+            <h2>Your Courses</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Course Name</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Course 1</td>
+                        <td>Completed</td>
+                    </tr>
+                    <tr>
+                        <td>Course 2</td>
+                        <td>In Progress</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Courses Feedback Content -->
+        <div id="coursesFeedbackContent" style="display: none;">
+            <h2>Give Feedback on Courses</h2>
+            <form class="add-cert-form">
+                <label for="courseFeedback">Your Feedback:</label>
+                <textarea id="courseFeedback" placeholder="Write your feedback on the courses here..."></textarea>
+                <button type="submit">Submit Feedback</button>
+            </form>
+        </div>
+
+        <!-- Faculty Feedback Content -->
+        <div id="facultyFeedbackContent" style="display: none;">
+            <h2>Give Feedback on Faculty</h2>
+            <form class="add-cert-form">
+                <label for="facultyFeedback">Your Feedback:</label>
+                <textarea id="facultyFeedback" placeholder="Write your feedback on the faculty here..."></textarea>
+                <button type="submit">Submit Feedback</button>
+            </form>
+        </div>
+
+        <!-- Services Feedback Content -->
+        <div id="servicesFeedbackContent" style="display: none;">
+            <h2>Give Feedback on Services</h2>
+            <form class="add-cert-form">
+                <label for="servicesFeedback">Your Feedback:</label>
+                <textarea id="servicesFeedback" placeholder="Write your feedback on the services here..."></textarea>
+                <button type="submit">Submit Feedback</button>
+            </form>
+        </div>
+
+        <!-- View Feedback Content -->
+        <div id="viewFeedbackContent" style="display: none;">
+            <h2>View Feedback</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Feedback ID</th>
+                        <th>Feedback</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>Great course!</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>Very informative.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Change Password Content -->
+        <div id="changePasswordContent" style="display: none;">
+            <h2>Change Password</h2>
+            <form>
+                <label for="oldPassword">Old Password:</label>
+                <input type="password" id="oldPassword" required>
+                <label for="newPassword">New Password:</label>
+                <input type="password" id="newPassword" required>
+                <button type="submit">Change Password</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

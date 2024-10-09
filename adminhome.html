@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: url('imageimportant.jpg') no-repeat center center fixed;
+            background-size: cover;
+            height: 100vh;
+            display: flex;
+        }
+
+        /* Side Menu Styling */
+        .side-menu {
+            width: 250px;
+            background: linear-gradient(135deg, #FFA500, #FFD580);
+            padding-top: 20px;
+            height: 100vh;
+            color: white;
+            position: fixed;
+            border-top-right-radius: 20px;
+            border-bottom-right-radius: 20px;
+        }
+
+        .side-menu h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: white;
+            font-weight: normal;
+        }
+
+        .side-menu a {
+            display: block;
+            padding: 15px;
+            text-decoration: none;
+            color: white;
+            margin: 10px 0;
+            text-align: center;
+            border-bottom: 1px solid #003b8d;
+            transition: background-color 0.3s;
+        }
+
+        /* Hover effect */
+        .side-menu a:hover {
+            background-color: #003b8d;
+        }
+
+        /* Active menu item */
+        .side-menu a.active {
+            background-color: #004aad;
+        }
+
+        /* Submenu styling */
+        .sub-menu {
+            background-color: #004aad;
+            display: none; /* Initially hidden */
+            margin: 5px 0;
+            border-radius: 5px;
+        }
+
+        .sub-menu a {
+            padding: 10px;
+            text-decoration: none;
+            color: white;
+            display: block;
+            text-align: center;
+            border: none;
+            transition: background-color 0.3s;
+        }
+
+        .sub-menu a:hover {
+            background-color: #003b8d;
+        }
+
+        .welcome {
+            font-size: 18px;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .content {
+            margin-left: 260px; /* Adjust for side menu width */
+            padding: 20px;
+            width: calc(100% - 260px);
+        }
+
+        .system-name {
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            font-size: 24px;
+            font-weight: bold;
+            color: black;
+        }
+
+        form {
+            margin-top: 20px;
+        }
+
+        form label {
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        form input, form select, form textarea {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        form button {
+            background-color: #004aad;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        form button:hover {
+            background-color: #003b8d;
+        }
+    </style>
+    <script>
+        function toggleSubMenu() {
+            const subMenu = document.getElementById('studentSubMenu');
+            subMenu.style.display = subMenu.style.display === 'block' ? 'none' : 'block';
+        }
+
+        function toggleFeedbackSubMenu() {
+            const feedbackSubMenu = document.getElementById('feedbackSubMenu');
+            feedbackSubMenu.style.display = feedbackSubMenu.style.display === 'block' ? 'none' : 'block';
+        }
+
+        function showContent(contentId) {
+            // Hide all content sections
+            document.getElementById('addStudentContent').style.display = 'none';
+            document.getElementById('viewStudentContent').style.display = 'none';
+            document.getElementById('editStudentContent').style.display = 'none';
+            document.getElementById('deleteStudentContent').style.display = 'none';
+            document.getElementById('graduatedStudentContent').style.display = 'none';
+            document.getElementById('settingsContent').style.display = 'none';
+            document.getElementById('feedbackCoursesContent').style.display = 'none';
+            document.getElementById('feedbackServicesContent').style.display = 'none';
+            document.getElementById('profileContent').style.display = 'none';
+
+            // Show the selected content section
+            document.getElementById(contentId).style.display = 'block';
+        }
+
+        function logout() {
+            // Redirect to index.html when logout is clicked
+            window.location.href = 'index.html';
+        }
+    </script>
+</head>
+<body>
+
+    <!-- Side Menu -->
+    <div class="side-menu">
+        <h2>Welcome, Admin</h2>
+        <a href="#" class="active">Dashboard</a>
+        <a href="#">Home</a>
+        <a href="#" onclick="toggleSubMenu()">My Students</a>
+        <div class="sub-menu" id="studentSubMenu">
+            <a href="#" onclick="showContent('addStudentContent')">Add Student</a>
+            <a href="#" onclick="showContent('viewStudentContent')">View Students</a>
+            <a href="#" onclick="showContent('editStudentContent')">Edit Student</a>
+            <a href="#" onclick="showContent('deleteStudentContent')">Delete Student</a>
+        </div>
+        
+        <a href="#" onclick="toggleFeedbackSubMenu()">Projects </a>
+        <div class="sub-menu" id="feedbackSubMenu">
+            <a href="#" onclick="showContent('feedbackCoursesContent')">Courses</a>
+            <a href="#" onclick="showContent('feedbackServicesContent')">Services</a>
+        </div>
+        <a href="#" onclick="showContent('profileContent')">Profile</a>
+        <a href="#" onclick="showContent('settingsContent')">Settings</a>
+        <a href="#" onclick="logout()">Logout</a>
+    </div>
+
+    <!-- Main Content Area -->
+    <div class="content">
+        <h1>Main Content Area</h1>
+        <p>This is where the main content will be displayed after navigating through the side menu options.</p>
+
+        <!-- Content for Submenus -->
+        <!-- Add Student Form -->
+        <div id="addStudentContent" style="display:none;">
+            <h2>Add Student</h2>
+            <form>
+                <label for="studentName">Student Name:</label>
+                <input type="text" id="studentName" name="studentName" required>
+
+                <label for="studentDept">Department:</label>
+                <input type="text" id="studentDept" name="studentDept" required>
+
+                <label for="studentID">Student ID:</label>
+                <input type="text" id="studentID" name="studentID" required>
+
+                <label for="gradDate">Graduation Date:</label>
+                <input type="date" id="gradDate" name="gradDate">
+
+                <button type="submit">Add Student</button>
+            </form>
+        </div>
+
+        <!-- View Students -->
+        <div id="viewStudentContent" style="display:none;">
+            <h2>View Students</h2>
+            <p>All your students will be displayed here in a table format.</p>
+        </div>
+
+        <!-- Edit Student Form -->
+        <div id="editStudentContent" style="display:none;">
+            <h2>Edit Student</h2>
+            <form>
+                <label for="selectStudent">Select Student to Edit:</label>
+                <select id="selectStudent" name="selectStudent" required>
+                    <option value="">--Select Student--</option>
+                </select>
+
+                <label for="newStudentName">New Student Name:</label>
+                <input type="text" id="newStudentName" name="newStudentName">
+
+                <label for="newGradDate">New Graduation Date:</label>
+                <input type="date" id="newGradDate" name="newGradDate">
+
+                <button type="submit">Save Changes</button>
+            </form>
+        </div>
+
+        <!-- Delete Student -->
+        <div id="deleteStudentContent" style="display:none;">
+            <h2>Delete Student</h2>
+            <form>
+                <label for="deleteStudent">Select Student to Delete:</label>
+                <select id="deleteStudent" name="deleteStudent" required>
+                    <option value="">--Select Student--</option>
+                </select>
+
+                <button type="submit">Delete Student</button>
+            </form>
+        </div>
+
+        
+
+        <!-- Feedback - Courses -->
+        <div id="feedbackCoursesContent" style="display:none;">
+            <h2>Feedback on Courses</h2>
+            <p>Submit feedback related to the courses.</p>
+        </div>
+
+        <!-- Feedback - Services -->
+        <div id="feedbackServicesContent" style="display:none;">
+            <h2>Feedback on Services</h2>
+            <p>Submit feedback related to the services.</p>
+        </div>
+
+        <!-- Profile -->
+        <div id="profileContent" style="display:none;">
+            <h2>Profile</h2>
+            <p>This section will contain the user's profile details.</p>
+        </div>
+
+        <!-- Settings -->
+        <div id="settingsContent" style="display:none;">
+            <h2>Settings</h2>
+            <p>This section will have settings options.</p>
+        </div>
+    </div>
+
+    
+</body>
+</html>
